@@ -18,7 +18,7 @@ Class se_admin {
         }
 
 	function se_add_options_panel() {
-		add_options_page('Search', 'Search Everything', 'manage_options', 'extend_search', array(&$this, 'se_option_page'));
+		add_options_page('Search', 'Search Everything', 7, 'extend_search', array(&$this, 'se_option_page'));
 	}
 
 	//build admin interface
@@ -230,13 +230,10 @@ Class se_admin {
 					<tr class="mainrow"> 
 				        <td class="titledesc"><?php _e('Search every author','SearchEverything'); ?>:</td>
 				        <td class="forminp">
-							<?php if ($wp_version <= '2.8'): ?>
 				            <select id="search_authors" name="search_authors">
 				                <option<?php if ($options['se_use_authors'] == 'No') { echo ' selected="selected"'; } ?> value="No">&nbsp;&nbsp;</option>
 								<option<?php if ($options['se_use_authors'] == 'Yes') { echo ' selected="selected"'; } ?> value="Yes"><?php _e('Yes', 'SearchEverything'); ?></option>	
 				            </select>
-							<?php endif; ?>
-							<small><?php if ($wp_version >= '2.8') { _e('This is disabled for WP 2.8+. I\'d appreciate the help if you have a fix.', 'SearchEverything');} ?></small>
 				        </td>
 				    </tr>
 					<tr class="mainrow"> 
