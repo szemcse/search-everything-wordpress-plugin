@@ -232,7 +232,7 @@ Class SearchEverything {
 		$sentance = $wpdb->escape($wp_query->query_vars['s']);
 		$search = "($wpdb->posts.post_title LIKE '{$n}{$sentance}{$n}') OR ($wpdb->posts.post_content LIKE '{$n}{$sentance}{$n}')";
 		// if it's not a sentance add other terms
-		if(!$wp_query->query_vars['sentence']){
+		if(!$wp_query->query_vars['sentence'] && count($terms) > 1 && $terms[0] != $sentence){
 			foreach($terms as $term){
 				$search .= $seperator;
 				$search .= "($wpdb->posts.post_title LIKE '{$n}{$term}{$n}') OR ($wpdb->posts.post_content LIKE '{$n}{$term}{$n}')";
