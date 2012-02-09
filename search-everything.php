@@ -43,7 +43,7 @@ Class SearchEverything {
 		$this->wp_ver25 = ($wp_version >= '2.5');
 		$this->wp_ver28 = ($wp_version >= '2.8');
 		$this->options = get_option('se_options');
-
+		
 		if (is_admin()) {
 			include ( SE_ABSPATH  . 'views/options.php' );
 			$SEAdmin = new se_admin();
@@ -106,6 +106,8 @@ Class SearchEverything {
 			$this->se_log("searching metadata");
 		}
 
+
+
 		if ($this->options['se_exclude_posts_list'] != '')
 		{
 			$this->se_log("searching excluding posts");
@@ -117,9 +119,9 @@ Class SearchEverything {
 			$this->se_log("searching excluding categories");
 		}
 
-		if ("Yes" == $this->options['se_use_authors'] && !$this->wp_ver28)// Need some help getting this back into the mix
+		if ("Yes" == $this->options['se_use_authors'])
 		{
-			add_filter('posts_where', array(&$this, 'se_search_authors'));
+			
 			add_filter('posts_join', array(&$this, 'se_search_authors_join'));
 			$this->se_log("searching authors");
 		}
@@ -159,6 +161,7 @@ Class SearchEverything {
 				$search_terms = array($s);
 			} else {
 				preg_match_all('/".*?("|$)|((?<=[\\s",+])|^)[^\\s",+]+/', $s, $matches);
+				echo '<!--'.var_export($matches, true).'-->'."\n\n";
 				$search_terms = array_map(create_function('$a', 'return trim($a, "\\"\'\\n\\r ");'), $matches[0]);
 			}
 		}
@@ -169,7 +172,7 @@ Class SearchEverything {
 	function se_search_where($where)
 	{
 		global $wp_query, $wpdb;
-		$searchQuery = '';
+		$searchQuery = $this->se_search_default();
 
 		//add filters based upon option settings
 		if ("Yes" == $this->options['se_use_tag_search'])
@@ -192,9 +195,13 @@ Class SearchEverything {
 		{
 			$searchQuery .= $this->se_build_search_comments();
 		}
+		if ("Yes" == $this->options['se_use_authors'])
+		{
+			$searchQuery .= $this->se_search_authors();
+		}
 		if ($searchQuery != '')
 		{
-			$where = str_replace( ")))", ")$searchQuery))", $where );
+			$where = preg_replace('#\(\(\(.*?\)\)\)#', '(('.$searchQuery.'))', $where);
 
 		}
 		if ($this->options['se_exclude_posts_list'] != '')
@@ -209,6 +216,31 @@ Class SearchEverything {
 		$this->se_log("global where: ".$where);
 		return $where;
 	}
+	// search for terms in default locations like title and content
+	// replacing the old search terms seems to be the best way to 
+	// avoid issue with multiple terms
+	function se_search_default(){
+		
+		global $wp_query, $wpdb;
+
+		$n = ($wp_query->query_vars['exact']) ? '' : '%';
+		$search = '';
+		$seperator = ' OR ';
+		$terms = $this->se_get_search_terms();
+		
+		// build sentence version first
+		$sentance = $wpdb->escape($wp_query->query_vars['s']);
+		$search = "($wpdb->posts.post_title LIKE '{$n}{$sentance}{$n}') OR ($wpdb->posts.post_content LIKE '{$n}{$sentance}{$n}')";
+		// if it's not a sentance add other terms
+		if(!$wp_query->query_vars['sentence'] && count($terms) > 1 && $terms[0] != $sentence){
+			foreach($terms as $term){
+				$search .= $seperator;
+				$search .= "($wpdb->posts.post_title LIKE '{$n}{$term}{$n}') OR ($wpdb->posts.post_content LIKE '{$n}{$term}{$n}')";
+				$seperator = ' OR ';
+			}
+		}
+		return $search;
+	}
 
 	// Exclude post revisions
 	function se_no_revisions($where)
@@ -220,7 +252,7 @@ Class SearchEverything {
 			{
 				$where = 'AND (' . substr($where, strpos($where, 'AND')+3) . ") AND $wpdb->posts.post_type != 'revision'";
 			}
-			$where = 'AND (' . substr($where, strpos($where, 'AND')+3) . ') AND post_type != \'revision\'';
+			$where = ' AND (' . substr($where, strpos($where, 'AND')+3) . ') AND post_type != \'revision\'';
 		}
 		return $where;
 	}
@@ -435,7 +467,7 @@ Class SearchEverything {
 	}
 	
 	// Build the author search
-	function se_search_authors($where)
+	function se_search_authors()
 	{
 		global $wp_query, $wpdb;
 		$s = $wp_query->query_vars['s'];
@@ -446,7 +478,7 @@ Class SearchEverything {
 		if ( !empty($search_terms) ) {
 			// Building search query
 			$n = ($exact) ? '' : '%';
-			$searchand = '';
+			$searchor = '';
 			foreach($search_terms as $term) {
 				$term = addslashes_gpc($term);
 				if ($this->wp_ver23)
@@ -455,18 +487,20 @@ Class SearchEverything {
 				} else {
 					$search .= "{$searchand}(u.display_name LIKE '{$n}{$term}{$n}')";
 				}
-				$searchand = ' AND ';
+				$searchand = ' OR ';
 			}
 			$sentence_term = $wpdb->escape($s);
 			if (!$sentence && count($search_terms) > 1 && $search_terms[0] != $sentence_term )
 			{
 				if ($this->wp_ver23)
 				{
-					$search = "($search) OR (u.display_name LIKE '{$n}{$sentence_term}{$n}')";
+					$search .= " OR (u.display_name LIKE '{$n}{$sentence_term}{$n}')";
 				} else {
-					$search = "($search) OR (u.display_name LIKE '{$n}{$sentence_term}{$n}')";
+					$search .= " OR (u.display_name LIKE '{$n}{$sentence_term}{$n}')";
 				}
 			}
+
+
 				
 			if ( !empty($search) )
 			$search = " OR ({$search}) ";
@@ -703,7 +737,7 @@ Class SearchEverything {
 
 		if (!empty($wp_query->query_vars['s']))
 		{
-			$join .= " LEFT JOIN $wpdb->users AS u ON ($wpdb->posts.ID = u.ID) ";
+			$join .= " LEFT JOIN $wpdb->users AS u ON ($wpdb->posts.post_author = u.ID) ";
 		}
 		$this->se_log("authors join: ".$join);
 		return $join;
