@@ -2,7 +2,7 @@
 Contributors: dancameron, sproutventure
 Donate link: http://bit.ly/plugin-donations
 Tags: search, search highlight, tag search, category search, category exclusion, comment search, page search, admin, seo, post filter
-Requires at least: 2.1
+Requires at least: 3
 Tested up to: 3.3
 Stable tag: 6.8
 
