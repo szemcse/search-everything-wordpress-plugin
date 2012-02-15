@@ -161,7 +161,7 @@ Class SearchEverything {
 				$search_terms = array($s);
 			} else {
 				preg_match_all('/".*?("|$)|((?<=[\\s",+])|^)[^\\s",+]+/', $s, $matches);
-				echo '<!--'.var_export($matches, true).'-->'."\n\n";
+
 				$search_terms = array_map(create_function('$a', 'return trim($a, "\\"\'\\n\\r ");'), $matches[0]);
 			}
 		}
