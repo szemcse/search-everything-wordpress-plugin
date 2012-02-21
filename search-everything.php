@@ -387,13 +387,13 @@ Class SearchEverything {
 			$where = str_replace('"', '\'', $where);
 			if(!$this->wp_ver28)
 			{
-				$where = str_replace(" AND (post_status = 'publish'", " AND (post_status = 'publish' OR post_status = 'attachment'", $where);
-				$where = str_replace("AND post_status != 'attachment'","",$where);
+				$where = str_replace(" AND (post_status = 'publish'", " AND (post_status = 'publish' OR post_type = 'attachment'", $where);
+				$where = str_replace("AND post_type != 'attachment'","",$where);
 			}
 			else
 			{
-				$where = str_replace(" AND ($wpdb->posts.post_status = 'publish'", " AND ($wpdb->posts.post_status = 'publish' OR $wpdb->posts.post_status = 'attachment'", $where);
-				$where = str_replace("AND $wpdb->posts.post_status != 'attachment'","",$where);
+				$where = str_replace(" AND ($wpdb->posts.post_status = 'publish'", " AND ($wpdb->posts.post_status = 'publish' OR $wpdb->posts.post_type = 'attachment'", $where);
+				$where = str_replace("AND $wpdb->posts.post_type != 'attachment'","",$where);
 			}
 		}
 		$this->se_log("attachments where: ".$where);
