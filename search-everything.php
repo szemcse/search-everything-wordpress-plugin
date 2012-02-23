@@ -43,7 +43,7 @@ Class SearchEverything {
 		$this->wp_ver25 = ($wp_version >= '2.5');
 		$this->wp_ver28 = ($wp_version >= '2.8');
 		$this->options = get_option('se_options');
-		
+
 		if (is_admin()) {
 			include ( SE_ABSPATH  . 'views/options.php' );
 			$SEAdmin = new se_admin();
@@ -52,20 +52,20 @@ Class SearchEverything {
 		if ("Yes" == $this->options['se_use_tag_search'] || "Yes" == $this->options['se_use_category_search'] || "Yes" == $this->options['se_use_tax_search'])
 		{
 			add_filter('posts_join', array(&$this, 'se_terms_join'));
-			if ("Yes" == $this->options['se_use_tag_search']) 
+			if ("Yes" == $this->options['se_use_tag_search'])
 				{
 					$this->se_log("searching tags");
-				} 
-			if ("Yes" == $this->options['se_use_category_search']) 
+				}
+			if ("Yes" == $this->options['se_use_category_search'])
 				{
 					$this->se_log("searching categories");
 				}
-			if ("Yes" == $this->options['se_use_tax_search']) 
+			if ("Yes" == $this->options['se_use_tax_search'])
 				{
 					$this->se_log("searching custom taxonomies");
 				}
 		}
-		
+
 		if ("Yes" == $this->options['se_use_page_search'])
 		{
 			add_filter('posts_where', array(&$this, 'se_search_pages'));
@@ -121,7 +121,7 @@ Class SearchEverything {
 
 		if ("Yes" == $this->options['se_use_authors'])
 		{
-			
+
 			add_filter('posts_join', array(&$this, 'se_search_authors_join'));
 			$this->se_log("searching authors");
 		}
@@ -131,9 +131,9 @@ Class SearchEverything {
 		add_filter('posts_where', array(&$this, 'se_no_revisions'));
 
 		add_filter('posts_request', array(&$this, 'se_distinct'));
-		
+
 		add_filter('posts_where', array(&$this, 'se_no_future'));
-		
+
 		// Highlight content
 		if("Yes" == $this->options['se_use_highlight'])
 		{
@@ -151,7 +151,7 @@ Class SearchEverything {
 		$s = $wp_query->query_vars['s'];
 		$sentence = $wp_query->query_vars['sentence'];
 		$search_terms = array();
-			
+
 		if ( !empty($s) )
 		{
 			// added slashes screw with quote grouping when done early, so done later
@@ -217,28 +217,31 @@ Class SearchEverything {
 		return $where;
 	}
 	// search for terms in default locations like title and content
-	// replacing the old search terms seems to be the best way to 
+	// replacing the old search terms seems to be the best way to
 	// avoid issue with multiple terms
 	function se_search_default(){
-		
+
 		global $wp_query, $wpdb;
 
 		$n = ($wp_query->query_vars['exact']) ? '' : '%';
 		$search = '';
-		$seperator = ' OR ';
+		//$seperator = ' OR ';
 		$terms = $this->se_get_search_terms();
-		
-		// build sentence version first
-		$sentance = $wpdb->escape($wp_query->query_vars['s']);
-		$search = "($wpdb->posts.post_title LIKE '{$n}{$sentance}{$n}') OR ($wpdb->posts.post_content LIKE '{$n}{$sentance}{$n}')";
+
 		// if it's not a sentance add other terms
-		if(!$wp_query->query_vars['sentence'] && count($terms) > 1 && $terms[0] != $sentence){
+		$search .= '(';
+		if(!$wp_query->query_vars['sentence'] && count($terms) > 1){
 			foreach($terms as $term){
 				$search .= $seperator;
-				$search .= "($wpdb->posts.post_title LIKE '{$n}{$term}{$n}') OR ($wpdb->posts.post_content LIKE '{$n}{$term}{$n}')";
-				$seperator = ' OR ';
+
+
+					$search .= sprintf("((%s.post_title LIKE '%s%s%s') OR (%s.post_content LIKE '%s%s%s'))", $wpdb->posts, $n, $term, $n, $wpdb->posts, $n, $term, $n);
+
+
+				$seperator = ' AND ';
 			}
 		}
+		$search .= ')';
 		return $search;
 	}
 
@@ -271,7 +274,7 @@ Class SearchEverything {
 		}
 		return $where;
 	}
-	
+
 	// Logs search into a file
 	function se_log($msg)
 	{
@@ -367,7 +370,7 @@ Class SearchEverything {
 			if(!$this->wp_ver28)
 			{
 				$where = str_replace(" AND (post_status = 'publish'", " AND ((post_status = 'publish' OR post_status = 'draft')", $where);
-			} 
+			}
 			else
 			{
 				$where = str_replace(" AND ($wpdb->posts.post_status = 'publish'", " AND ($wpdb->posts.post_status = 'publish' OR $wpdb->posts.post_status = 'draft'", $where);
@@ -399,7 +402,7 @@ Class SearchEverything {
 		$this->se_log("attachments where: ".$where);
 		return $where;
 	}
-	
+
 	// create the comments data query
 	function se_build_search_comments()
 	{
@@ -465,7 +468,7 @@ Class SearchEverything {
 		$this->se_log("comments sql: ".$search);
 		return $search;
 	}
-	
+
 	// Build the author search
 	function se_search_authors()
 	{
@@ -474,7 +477,7 @@ Class SearchEverything {
 		$search_terms = $this->se_get_search_terms();
 		$exact = $wp_query->query_vars['exact'];
 		$search = '';
-		
+
 		if ( !empty($search_terms) ) {
 			// Building search query
 			$n = ($exact) ? '' : '%';
@@ -501,16 +504,16 @@ Class SearchEverything {
 			}
 
 
-				
+
 			if ( !empty($search) )
 			$search = " OR ({$search}) ";
-				
+
 		}
-		
+
 		$this->se_log("user where: ".$search);
 		return $search;
 	}
-	
+
 	// create the search meta data query
 	function se_build_search_metadata()
 	{
@@ -544,10 +547,10 @@ Class SearchEverything {
 					$search = "($search) OR (meta_value LIKE '{$n}{$sentence_term}{$n}')";
 				}
 			}
-				
+
 			if ( !empty($search) )
 			$search = " OR ({$search}) ";
-				
+
 		}
 		$this->se_log("meta where: ".$search);
 		return $search;
@@ -712,7 +715,7 @@ Class SearchEverything {
 			if ($this->wp_ver23)
 			{
 				$join .= " LEFT JOIN $wpdb->comments AS cmt ON ( cmt.comment_post_ID = $wpdb->posts.ID ) ";
-					
+
 			} else {
 
 				if ('Yes' == $this->options['se_approved_comments_only'])
@@ -723,7 +726,7 @@ Class SearchEverything {
 				}
 				$join .= "LEFT JOIN $wpdb->comments ON ( comment_post_ID = ID " . $comment_approved . ") ";
 			}
-				
+
 		}
 		$this->se_log("comments join: ".$join);
 		return $join;
@@ -780,10 +783,10 @@ Class SearchEverything {
 				$on[] = "ttax.taxonomy = 'post_tag'";
 			}
 			// if we're searching custom taxonomies
-			if ( $this->options['se_use_tax_search'] ) 
+			if ( $this->options['se_use_tax_search'] )
 				{
 					$all_taxonomies = get_object_taxonomies('post');
-					foreach ($all_taxonomies as $taxonomy) 
+					foreach ($all_taxonomies as $taxonomy)
 					{
 						if ($taxonomy == 'post_tag' || $taxonomy == 'category')
 						continue;
@@ -816,7 +819,7 @@ Class SearchEverything {
 				if (preg_match('/\>/', $term))
         			continue; //don't try to highlight this one
 					$term = preg_quote($term);
-					
+
 				if ($highlight_color != '')
 				$postcontent = preg_replace(
 					'"(?<!\<)(?<!\w)(\pL*'.$term.'\pL*)(?!\w|[^<>]*>)"i'
