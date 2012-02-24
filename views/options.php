@@ -2,7 +2,7 @@
 
 Class se_admin {
 
-	var $version = '6.6';
+	var $version = '6.9';
 
 	function se_admin() {
 
@@ -353,13 +353,7 @@ Class se_admin {
 						</td>
 				        <td>
 							<ul class="SE_lists">
-								<li><a href="#"><strong>EricLe Bail</strong></a> (<a href="https://core.sproutventure.com/projects/search-everything/issues" target="blank">#690, #285, #272, #49, #44 and #60</a>)</li>
-								<li><a href="#">Gary Traffanstedt</a> (<a href="https://core.sproutventure.com/projects/search-everything/issues" target="blank">#43</a>)</li>
-								<li><a href="http://codium.co.nz"  target="blank">Matias Gertel</a></li>
-								<li><a href="http://striderweb.com/" target="blank">Stephen Rider</a></li>
-								<li><a href="http://chrismeller.com/" target="blank">Chris Meller</a></li>
-								<li><a href="http://kinrowan.net/" target="blank">Cori Schlegel</a></li>
-								<li><?php _e('and many more...', 'SearchEverything'); ?><a href="https://core.sproutventure.com/projects/search-everything/issues" target="blank"><?php _e('how about you?', 'SearchEverything'); ?></a></li>
+								<li><a href="https://github.com/ninnypants"><strong>EricLe Bail</strong></a></li>
 							</ul>
 					    </td>
 						<td>
