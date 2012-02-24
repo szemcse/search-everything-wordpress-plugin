@@ -353,7 +353,7 @@ Class se_admin {
 						</td>
 				        <td>
 							<ul class="SE_lists">
-								<li><a href="https://github.com/ninnypants"><strong>EricLe Bail</strong></a></li>
+								<li><a href="https://github.com/ninnypants"><strong>Tyrel Kelsey</strong></a></li>
 							</ul>
 					    </td>
 						<td>
