@@ -230,7 +230,7 @@ Class SearchEverything {
 
 		// if it's not a sentance add other terms
 		$search .= '(';
-		if(!$wp_query->query_vars['sentence'] && count($terms) > 1){
+		if(!$wp_query->query_vars['sentence']){
 			foreach($terms as $term){
 				$search .= $seperator;
 
