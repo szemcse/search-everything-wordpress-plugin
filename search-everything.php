@@ -222,7 +222,7 @@ Class SearchEverything {
 
 		global $wp_query, $wpdb;
 
-		$n = ($wp_query->query_vars['exact']) ? '' : '%';
+		$n = (isset($wp_query->query_vars['exact']) && $wp_query->query_vars['exact']) ? '' : '%';
 		$search = '';
 		//$seperator = ' OR ';
 		$terms = $this->se_get_search_terms();
