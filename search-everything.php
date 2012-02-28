@@ -3,7 +3,7 @@
 Plugin Name: Search Everything
 Plugin URI: https://github.com/sproutventure/search-everything-wordpress-plugin/
 Description: Adds search functionality without modifying any template pages: Activate, Configure and Search. Options Include: search highlight, search pages, excerpts, attachments, drafts, comments, tags and custom fields (metadata). Also offers the ability to exclude specific pages and posts. Does not search password-protected content.
-Version: 6.9
+Version: 6.9.1
 Author: Dan Cameron of Sprout Venture
 Author URI: http://sproutventure.com/
 */
@@ -13,7 +13,7 @@ Author URI: http://sproutventure.com/
 
  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  */
-
+error_reporting(E_ALL);
 if ( !defined('WP_CONTENT_DIR') )
 define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
 
@@ -161,7 +161,6 @@ Class SearchEverything {
 				$search_terms = array($s);
 			} else {
 				preg_match_all('/".*?("|$)|((?<=[\\s",+])|^)[^\\s",+]+/', $s, $matches);
-
 				$search_terms = array_map(create_function('$a', 'return trim($a, "\\"\'\\n\\r ");'), $matches[0]);
 			}
 		}
@@ -223,9 +222,9 @@ Class SearchEverything {
 
 		global $wp_query, $wpdb;
 
-		$n = ($wp_query->query_vars['exact']) ? '' : '%';
+		$n = (isset($wp_query->query_vars['exact']) && $wp_query->query_vars['exact']) ? '' : '%';
 		$search = '';
-		//$seperator = ' OR ';
+		$seperator = '';
 		$terms = $this->se_get_search_terms();
 
 		// if it's not a sentance add other terms
@@ -300,7 +299,7 @@ Class SearchEverything {
 		global $wp_query, $wpdb;
 		if (!empty($wp_query->query_vars['s']))
 		{
-			if (strstr($where, 'DISTINCT'))
+			if (strstr($query, 'DISTINCT'))
 			{}
 			else
 			{
@@ -475,13 +474,12 @@ Class SearchEverything {
 		global $wp_query, $wpdb;
 		$s = $wp_query->query_vars['s'];
 		$search_terms = $this->se_get_search_terms();
-		$exact = $wp_query->query_vars['exact'];
+		$n = (isset($wp_query->query_vars['exact']) && $wp_query->query_vars['exact']) ? '' : '%';
 		$search = '';
+		$searchand = '';
 
 		if ( !empty($search_terms) ) {
 			// Building search query
-			$n = ($exact) ? '' : '%';
-			$searchor = '';
 			foreach($search_terms as $term) {
 				$term = addslashes_gpc($term);
 				if ($this->wp_ver23)
@@ -493,7 +491,7 @@ Class SearchEverything {
 				$searchand = ' OR ';
 			}
 			$sentence_term = $wpdb->escape($s);
-			if (!$sentence && count($search_terms) > 1 && $search_terms[0] != $sentence_term )
+			if (count($search_terms) > 1 && $search_terms[0] != $sentence_term )
 			{
 				if ($this->wp_ver23)
 				{
@@ -520,12 +518,11 @@ Class SearchEverything {
 		global $wp_query, $wpdb;
 		$s = $wp_query->query_vars['s'];
 		$search_terms = $this->se_get_search_terms();
-		$exact = $wp_query->query_vars['exact'];
+		$n = (isset($wp_query->query_vars['exact']) && $wp_query->query_vars['exact']) ? '' : '%';
 		$search = '';
 
 		if ( !empty($search_terms) ) {
 			// Building search query
-			$n = ($exact) ? '' : '%';
 			$searchand = '';
 			foreach($search_terms as $term) {
 				$term = addslashes_gpc($term);
@@ -538,7 +535,7 @@ Class SearchEverything {
 				$searchand = ' AND ';
 			}
 			$sentence_term = $wpdb->escape($s);
-			if (!$sentence && count($search_terms) > 1 && $search_terms[0] != $sentence_term )
+			if (count($search_terms) > 1 && $search_terms[0] != $sentence_term )
 			{
 				if ($this->wp_ver23)
 				{
