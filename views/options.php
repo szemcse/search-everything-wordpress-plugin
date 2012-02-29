@@ -18,7 +18,9 @@ Class se_admin {
         }
 
 	function se_add_options_panel() {
-		add_options_page('Search', 'Search Everything', 7, 'extend_search', array(&$this, 'se_option_page'));
+		global $wp_version;
+		$cap = version_compare('2.0', $wp_version, '<') ? 'publish_posts' : 7;
+		add_options_page('Search', 'Search Everything', $cap, 'extend_search', array(&$this, 'se_option_page'));
 	}
 
 	//build admin interface
@@ -27,10 +29,10 @@ Class se_admin {
 		global $wpdb, $table_prefix, $wp_version;
 
 			$new_options = array(
-				'se_exclude_categories'			=> (isset($_POST['exclude_categories']) && $_POST['exclude_categories'] == 'Yes') ? 'Yes' : 'No',
-				'se_exclude_categories_list'	=> (isset($_POST['exclude_categories_list']) && $_POST['exclude_categories_list'] == 'Yes') ? 'Yes' : 'No',
-				'se_exclude_posts'				=> (isset($_POST['exclude_posts']) && $_POST['exclude_posts'] == 'Yes') ? 'Yes' : 'No',
-				'se_exclude_posts_list'			=> (isset($_POST['exclude_posts_list']) && $_POST['exclude_posts_list'] == 'Yes') ? 'Yes' : 'No',
+				'se_exclude_categories'			=> (isset($_POST['exclude_categories']) && !empty($_POST['exclude_categories'])) ? $_POST['exclude_categories'] : '',
+				'se_exclude_categories_list'	=> (isset($_POST['exclude_categories_list']) && !empty($_POST['exclude_categories_list'])) ? $_POST['exclude_categories_list'] : '',
+				'se_exclude_posts'				=> (isset($_POST['exclude_posts'])) ? $_POST['exclude_posts'] : '',
+				'se_exclude_posts_list'			=> (isset($_POST['exclude_posts_list']) && !empty($_POST['exclude_posts_list'])) ? $_POST['exclude_posts_list'] : '',
 				'se_use_page_search'			=> (isset($_POST['search_pages']) && $_POST['search_pages'] == 'Yes') ? 'Yes' : 'No',
 				'se_use_comment_search'			=> (isset($_POST['search_comments']) && $_POST['search_comments'] == 'Yes') ? 'Yes' : 'No',
 				'se_use_tag_search'				=> (isset($_POST['search_tags']) && $_POST['search_tags'] == 'Yes') ? 'Yes' : 'No',
@@ -326,7 +328,7 @@ Class se_admin {
 							<p><?php _e('Use this search form to run a live search test.', 'SearchEverything'); ?></p>
 						</td>
 						<td>
-							<form method="get" id="searchform" action="<?php bloginfo('home'); ?>">
+							<form method="get" id="searchform" action="<?php bloginfo($cap = version_compare('2.2', $wp_version, '<') ? 'url' : 'home'); ?>">
 							<p class="srch submit">
 								<input type="text" class="srch-txt" value="<?php echo (isset($S)) ? wp_specialchars($s, 1) : ''; ?>" name="s" id="s" size="30" />
 								<input type="submit" class="SE5_btn" id="searchsubmit" value="<?php _e('Run Test Search', 'SearchEverything'); ?>" />

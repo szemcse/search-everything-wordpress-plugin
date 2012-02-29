@@ -148,8 +148,8 @@ Class SearchEverything {
 	function se_get_search_terms()
 	{
 		global $wp_query, $wpdb;
-		$s = $wp_query->query_vars['s'];
-		$sentence = $wp_query->query_vars['sentence'];
+		$s = isset($wp_query->query_vars['s']) ? $wp_query->query_vars['s'] : '';
+		$sentence = isset($wp_query->query_vars['sentence']) ? $wp_query->query_vars['sentence'] : false;
 		$search_terms = array();
 
 		if ( !empty($s) )
@@ -229,7 +229,6 @@ Class SearchEverything {
 
 		// if it's not a sentance add other terms
 		$search .= '(';
-		if(!$wp_query->query_vars['sentence']){
 			foreach($terms as $term){
 				$search .= $seperator;
 
@@ -239,7 +238,7 @@ Class SearchEverything {
 
 				$seperator = ' AND ';
 			}
-		}
+
 		$search .= ')';
 		return $search;
 	}
