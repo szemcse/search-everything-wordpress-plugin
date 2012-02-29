@@ -126,7 +126,7 @@ Class SearchEverything {
 			$this->se_log("searching authors");
 		}
 
-		add_filter('posts_search', array(&$this, 'se_search_where'));
+		add_filter('posts_search', array(&$this, 'se_search_where'), 10, 2);
 
 		add_filter('posts_where', array(&$this, 'se_no_revisions'));
 
@@ -168,9 +168,13 @@ Class SearchEverything {
 	}
 
 	// add where clause to the search query
-	function se_search_where($where)
-	{
-		global $wp_query, $wpdb;
+	function se_search_where($where, $wp_query){
+
+		if(!$wp_query->is_search())
+			return $where;
+
+		global $wpdb;
+
 		$searchQuery = $this->se_search_default();
 
 		//add filters based upon option settings
