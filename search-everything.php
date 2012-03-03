@@ -3,7 +3,7 @@
 Plugin Name: Search Everything
 Plugin URI: https://github.com/sproutventure/search-everything-wordpress-plugin/
 Description: Adds search functionality without modifying any template pages: Activate, Configure and Search. Options Include: search highlight, search pages, excerpts, attachments, drafts, comments, tags and custom fields (metadata). Also offers the ability to exclude specific pages and posts. Does not search password-protected content.
-Version: 6.9.2
+Version: 6.9.3
 Author: Dan Cameron of Sprout Venture
 Author URI: http://sproutventure.com/
 */
@@ -13,7 +13,7 @@ Author URI: http://sproutventure.com/
 
  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  */
-error_reporting(E_ALL);
+
 if ( !defined('WP_CONTENT_DIR') )
 define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
 
