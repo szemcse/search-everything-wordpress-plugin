@@ -47,8 +47,8 @@ Class se_admin {
 				'se_use_cmt_authors'			=> (isset($_POST['search_cmt_authors']) && $_POST['search_cmt_authors'] == 'Yes') ? 'Yes' : 'No',
 				'se_use_metadata_search'		=> (isset($_POST['search_metadata']) && $_POST['search_metadata'] == 'Yes') ? 'Yes' : 'No',
 				'se_use_highlight'				=> (isset($_POST['search_highlight']) && $_POST['search_highlight'] == 'Yes') ? 'Yes' : 'No',
-				'se_highlight_color'			=> (isset($_POST['highlight_color']) && $_POST['highlight_color'] == 'Yes') ? 'Yes' : 'No',
-				'se_highlight_style'			=> (isset($_POST['highlight_style']) && $_POST['highlight_style'] == 'Yes') ? 'Yes' : 'No'
+				'se_highlight_color'			=> (isset($_POST['highlight_color'])) ? $_POST['highlight_color'] : '',
+				'se_highlight_style'			=> (isset($_POST['highlight_style'])) ? $_POST['highlight_style'] : ''
 
 			);
 
