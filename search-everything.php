@@ -184,7 +184,7 @@ Class SearchEverything {
 		{
 			$searchQuery .= $this->se_build_search_tag();
 		}
-		if ("Yes" == $this->options['se_use_category_search'])
+		if ("Yes" == $this->options['se_use_category_search'] || 'Yes' == $this->options['se_use_tax_search'])
 		{
 			$searchQuery .= $this->se_build_search_categories();
 		}
@@ -203,9 +203,6 @@ Class SearchEverything {
 		if ("Yes" == $this->options['se_use_authors'])
 		{
 			$searchQuery .= $this->se_search_authors();
-		}
-		if ('Yes' == $this->options['se_use_tax_search']) {
-			$searchQuery .= $this->se_build_search_categories();
 		}
 		if ($searchQuery != '')
 		{
