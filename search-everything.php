@@ -3,7 +3,7 @@
 Plugin Name: Search Everything
 Plugin URI: https://github.com/sproutventure/search-everything-wordpress-plugin/
 Description: Adds search functionality without modifying any template pages: Activate, Configure and Search. Options Include: search highlight, search pages, excerpts, attachments, drafts, comments, tags and custom fields (metadata). Also offers the ability to exclude specific pages and posts. Does not search password-protected content.
-Version: 6.9.1
+Version: 6.9.3
 Author: Dan Cameron of Sprout Venture
 Author URI: http://sproutventure.com/
 */
@@ -134,6 +134,8 @@ Class SearchEverything {
 
 		add_filter('posts_where', array(&$this, 'se_no_future'));
 
+		add_filter('posts_request', array(&$this, 'se_log_query'));
+
 		// Highlight content
 		if("Yes" == $this->options['se_use_highlight'])
 		{
@@ -170,7 +172,7 @@ Class SearchEverything {
 	// add where clause to the search query
 	function se_search_where($where, $wp_query){
 
-		if(!$wp_query->is_search)
+		if(!$wp_query->is_search())
 			return $where;
 
 		global $wpdb;
@@ -201,6 +203,9 @@ Class SearchEverything {
 		if ("Yes" == $this->options['se_use_authors'])
 		{
 			$searchQuery .= $this->se_search_authors();
+		}
+		if ('Yes' == $this->options['se_use_tax_search']) {
+			$searchQuery .= $this->se_build_search_categories();
 		}
 		if ($searchQuery != '')
 		{
@@ -836,6 +841,13 @@ Class SearchEverything {
 		}
 		return $postcontent;
 	}
+
+	function se_log_query($query){
+		global $wp_query;
+		if($wp_query->is_search)
+			$this->se_log($query);
+		return $query;
+	}// se_log_query
 } // END
 
 ?>
