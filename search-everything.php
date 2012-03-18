@@ -134,7 +134,7 @@ Class SearchEverything {
 
 		add_filter('posts_where', array(&$this, 'se_no_future'));
 
-		add_filter('posts_request', array(&$this, 'se_log_query'));
+		add_filter('posts_request', array(&$this, 'se_log_query'), 10, 2);
 
 		// Highlight content
 		if("Yes" == $this->options['se_use_highlight'])
@@ -839,8 +839,7 @@ Class SearchEverything {
 		return $postcontent;
 	}
 
-	function se_log_query($query){
-		global $wp_query;
+	function se_log_query($query, $wp_query){
 		if($wp_query->is_search)
 			$this->se_log($query);
 		return $query;
