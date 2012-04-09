@@ -134,6 +134,8 @@ Class SearchEverything {
 
 		add_filter('posts_where', array(&$this, 'se_no_future'));
 
+		add_filter('posts_request', array(&$this, 'se_log_query'), 10, 2);
+
 		// Highlight content
 		if("Yes" == $this->options['se_use_highlight'])
 		{
@@ -170,7 +172,7 @@ Class SearchEverything {
 	// add where clause to the search query
 	function se_search_where($where, $wp_query){
 
-		if(!$wp_query->is_search)
+		if(!$wp_query->is_search())
 			return $where;
 
 		global $wpdb;
@@ -182,7 +184,7 @@ Class SearchEverything {
 		{
 			$searchQuery .= $this->se_build_search_tag();
 		}
-		if ("Yes" == $this->options['se_use_category_search'])
+		if ("Yes" == $this->options['se_use_category_search'] || 'Yes' == $this->options['se_use_tax_search'])
 		{
 			$searchQuery .= $this->se_build_search_categories();
 		}
@@ -836,6 +838,12 @@ Class SearchEverything {
 		}
 		return $postcontent;
 	}
+
+	function se_log_query($query, $wp_query){
+		if($wp_query->is_search)
+			$this->se_log($query);
+		return $query;
+	}// se_log_query
 } // END
 
 ?>
