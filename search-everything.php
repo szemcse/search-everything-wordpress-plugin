@@ -48,6 +48,10 @@ Class SearchEverything {
 		if (is_admin()) {
 			include ( SE_ABSPATH  . 'views/options.php' );
 			$SEAdmin = new se_admin();
+			// Disable Search-Everything, because posts_join is not working properly in Wordpress-backend's Ajax functions 
+			if (basename($_SERVER["SCRIPT_NAME"]) == "admin-ajax.php") {	
+				return true;
+			}
 		}
 		//add filters based upon option settings
 		if ("Yes" == $this->options['se_use_tag_search'] || "Yes" == $this->options['se_use_category_search'] || "Yes" == $this->options['se_use_tax_search'])
@@ -176,7 +180,7 @@ Class SearchEverything {
 		if(!$wp_query->is_search())
 			return $where;
 		
-		$this->query_instance = $wp_query;
+		$this->query_instance = &$wp_query;
 		global $wpdb;
 		
 		$searchQuery = $this->se_search_default();
@@ -694,7 +698,7 @@ Class SearchEverything {
 	function se_exclude_categories_join($join)
 	{
 		global $wpdb;
-
+		
 		if (!empty($this->query_instance->query_vars['s']))
 		{
 
