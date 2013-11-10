@@ -1,0 +1,336 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Search Everything v7.0.1\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/search-everything\n"
+"POT-Creation-Date: 2009-06-11 23:25+0000\n"
+"PO-Revision-Date: 2013-11-10 10:01+0100\n"
+"Last-Translator: HunStArt <szemcse@freemail.hu>\n"
+"Language-Team: FYGureout, HunStArt <webmester@wordpress2you.com, "
+"szemcse@freemail.hu>\n"
+"Language: hu_HU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: .\n"
+"X-Textdomain-Support: yes\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+# @ SearchEverything
+#: views/options.php:54 views/options.php:61
+msgid ""
+"Your default search settings have been <strong>updated</strong> by Search "
+"Everything. </p><p> What are you waiting for? Go check out the new search "
+"results!"
+msgstr ""
+"Az alapértelmezett kereső beállításai <strong>frissítve</strong> a Search "
+"Everything bővítménnyel.</p><p>Mire várunk még? Ellenőrizzük az új keresési "
+"eredményeket!"
+
+# @ SearchEverything
+#: views/options.php:71
+msgid "Search Everything Version:"
+msgstr "Search Everything verzió:"
+
+# @ SearchEverything
+#: views/options.php:76 views/options.php:278
+msgid "Update Options"
+msgstr "Beállítások frissítése"
+
+# @ SearchEverything
+#: views/options.php:84
+msgid "Basic Configuration"
+msgstr "Alapbeállítások"
+
+# @ SearchEverything
+#: views/options.php:90
+msgid "Search every page"
+msgstr "Keresés az összes oldal között"
+
+#: views/options.php:90
+msgid "(non-password protected)"
+msgstr "(jelszóval nem védett)"
+
+# @ SearchEverything
+#: views/options.php:94 views/options.php:105 views/options.php:118
+#: views/options.php:132 views/options.php:143 views/options.php:153
+#: views/options.php:163 views/options.php:173 views/options.php:186
+#: views/options.php:197 views/options.php:207 views/options.php:217
+#: views/options.php:227
+msgid "Yes"
+msgstr "Igen"
+
+# @ SearchEverything
+#: views/options.php:101
+msgid "Search approved pages only"
+msgstr "Keresés csak az engedélyezett oldalak között"
+
+# @ SearchEverything
+#: views/options.php:114
+msgid "Search every tag name"
+msgstr "Keresés az összes címke között"
+
+# @ SearchEverything
+#: views/options.php:128
+msgid "Search every category name and description"
+msgstr "Keresés minden kategórianév és -leírás között"
+
+# @ SearchEverything
+#: views/options.php:139
+msgid "Search every comment"
+msgstr "Keresés az összes hozzászólás között"
+
+# @ SearchEverything
+#: views/options.php:149
+msgid "Search comment authors"
+msgstr "Keresés a hozzászólások szerzői között"
+
+# @ SearchEverything
+#: views/options.php:159
+msgid "Search approved comments only"
+msgstr "Csak az elfogadott hozzászólások között"
+
+# @ SearchEverything
+#: views/options.php:169
+msgid "Search every excerpt"
+msgstr "Keresés az összes kivonat között"
+
+# @ SearchEverything
+#: views/options.php:182
+msgid "Search every draft"
+msgstr "Keresés az összes vázlat között"
+
+# @ SearchEverything
+#: views/options.php:193
+msgid "Search every attachment"
+msgstr "Keresés az össes csatolmány között"
+
+# @ SearchEverything
+#: views/options.php:193
+msgid "(post type = attachment)"
+msgstr "(bejegyzés típus = csatolmány)"
+
+# @ SearchEverything
+#: views/options.php:203
+msgid "Search every custom field"
+msgstr "Keresés az egyedi mezők között"
+
+# @ SearchEverything
+#: views/options.php:203
+msgid "(metadata)"
+msgstr "(metadata)"
+
+# @ SearchEverything
+#: views/options.php:213
+msgid "Search every author"
+msgstr "Keresés az összes szerző között"
+
+# @ SearchEverything
+#: views/options.php:223
+msgid "Highlight Search Terms"
+msgstr "Kiemelt keresési feltételek"
+
+# @ SearchEverything
+#: views/options.php:233
+msgid "Highlight Background Color"
+msgstr "Kiemelés háttérszíne"
+
+# @ SearchEverything
+#: views/options.php:236
+msgid "Examples:<br/>'#FFF984' or 'red'"
+msgstr "Példa:<br/>'#FFF984' vagy 'red'"
+
+# @ SearchEverything
+#: views/options.php:246
+msgid "Advanced Configuration - Exclusion"
+msgstr "Haladó beállítások - Kizárás"
+
+# @ SearchEverything
+#: views/options.php:252
+msgid "Exclude some post or page IDs"
+msgstr "Néhány oldal vagy bejegyzés kizárása a keresésből"
+
+# @ SearchEverything
+#: views/options.php:255
+msgid "Comma separated Post IDs (example: 1, 5, 9)"
+msgstr "Vesszővel elválasztott bejegyzés ID-k (például: 1, 9, 55)"
+
+# @ SearchEverything
+#: views/options.php:259
+msgid "Exclude Categories"
+msgstr "Kihagyni kívánt kategóriák"
+
+# @ SearchEverything
+#: views/options.php:262
+msgid "Comma separated category IDs (example: 1, 4)"
+msgstr "Vesszővel elválasztott kategória ID-k (például: 1, 9, 55)"
+
+# @ SearchEverything
+#: views/options.php:266
+msgid "Full Highlight Style"
+msgstr "Teljes kiemelés stílus"
+
+# @ SearchEverything
+#: views/options.php:268
+msgid ""
+"Important: 'Highlight Background Color' must be blank to use this advanced "
+"styling."
+msgstr ""
+"Figyelmeztetés: A 'Kiemelés háttérszín' résznek üresnek kell lennie, "
+"amennyiben ezt a bővített stílust kívánjuk használni."
+
+# @ SearchEverything
+#: views/options.php:270
+msgid ""
+"Example:<br/>background-color: #FFF984; font-weight: bold; color: #000; "
+"padding: 0 1px;"
+msgstr ""
+"Például:<br/>background-color: #FFF984; font-weight: bold; color: #000; "
+"padding: 0 1px;"
+
+# @ SearchEverything
+#: views/options.php:283
+msgid "Developed by Dan Cameron of"
+msgstr "Fejlesztő: Dan Cameron,"
+
+# @ SearchEverything
+#: views/options.php:283
+msgid "Sprout Venture"
+msgstr "Sprout Venture"
+
+# @ SearchEverything
+#: views/options.php:283
+msgid "We Provide custom WordPress Plugins and Themes and a whole lot more."
+msgstr ""
+"Egyedi WordPress bővítmények és sablonok, valamint az összes hozzájuk "
+"tartozó dolgok fejlesztésével foglalkozunk.<br /><small>Magyar fordítás: <a "
+"href=\"http://www.wordpress2you.com\" target=\"_blank\">FYGureout</a></"
+"small>, <a href=\"http://www.hunstart.hu\" target=\"_blank\">HunStArt</a></"
+"small>"
+
+# @ SearchEverything
+#: views/options.php:287
+msgid "Reset Button"
+msgstr "Alaphelyzetbe gomb"
+
+# @ SearchEverything
+#: views/options.php:295
+msgid "Find a bug?"
+msgstr "Hibát találtunk?"
+
+# @ SearchEverything
+#: views/options.php:295
+msgid "Post it as a new issue"
+msgstr "Jelöljük meg új tételként."
+
+# @ SearchEverything
+#: views/options.php:302
+msgid "Test Search Form"
+msgstr "Keresési űrlap tesztelése"
+
+# @ SearchEverything
+#: views/options.php:309
+msgid "Use this search form to run a live search test."
+msgstr "Használjuk ezt az űrlapot az élő oldalon történő teszteléshez."
+
+# @ SearchEverything
+#: views/options.php:315
+msgid "Run Test Search"
+msgstr "Tesztkeresés indítása"
+
+# @ SearchEverything
+#: views/options.php:326
+msgid "News"
+msgstr "Hírek"
+
+# @ SearchEverything
+#: views/options.php:327
+msgid "Development Support"
+msgstr "Fejlesztői támogatás"
+
+# @ SearchEverything
+#: views/options.php:328
+msgid "Localization Support"
+msgstr "Fordítói támogatás"
+
+# @ SearchEverything
+#: views/options.php:334
+msgid "LOCALIZATION SUPPORT:"
+msgstr "FORDÍTÓI TÁMOGATÁS:"
+
+# @ SearchEverything
+#: views/options.php:334
+msgid ""
+"Version 6 was a major update and a few areas need new localization support. "
+"If you can help send me your translations by posting them as a new issue, "
+msgstr ""
+"A 6. verzió egy elég nagy frissítésen ment keresztül, és pár helyen "
+"szükséges lehet a nyelvi támogatás szerkesztése.Nagy segítség, ha a "
+"fordításokat megküldik számunkra, "
+
+# @ SearchEverything
+#: views/options.php:334
+msgid "here"
+msgstr "ide"
+
+# @ SearchEverything
+#: views/options.php:335
+msgid "Thank You!"
+msgstr "Köszönjük szépen!"
+
+# @ SearchEverything
+#: views/options.php:335
+msgid ""
+"The development of Search Everything since Version one has primarily come "
+"from the WordPress community, I&#8217;m grateful for their dedicated and "
+"continued support."
+msgstr ""
+"A Search Everything bővítmény fejlesztésének igénye az első verziótól a "
+"WordPress Közösségnek köszönhető, és nagyon hálás vagyok a kiemelt és "
+"folyamatos támogatásukért."
+
+#: views/options.php:345
+msgid "and many more..."
+msgstr "további információk"
+
+#: views/options.php:345
+msgid "how about you?"
+msgstr "mi van veled?"
+
+# @ SearchEverything
+#. Plugin Name of an extension
+msgid "Search Everything"
+msgstr "Search Everything"
+
+#. Plugin URI of an extension
+msgid "https://core.sproutventure.com/projects/show/search-everything"
+msgstr "https://core.sproutventure.com/projects/show/search-everything"
+
+#. Description of an extension
+msgid ""
+"Adds search functionality without modifying any template pages: Activate, "
+"Configure and Search. Options Include: search highlight, search pages, "
+"excerpts, attachments, drafts, comments, tags and custom fields (metadata). "
+"Also offers the ability to exclude specific pages and posts. Does not search "
+"password-protected content."
+msgstr ""
+"Hozzáadja a keresési funkciót a sablon módosítása nélkül bármelyik "
+"sablonhoz: Aktiválása, konfigurálása után már a keresés működik is. Keresési "
+"lehetőségek a következők: kereséskor a keresett szöveg kiemelése, kereső "
+"oldalakon, részletek megjelnítése a keresési találatokól, mellékleteket, "
+"piszkozatokat, hozzászólásokat, címkéket és egyéni mezőket (metaadatokat) is "
+"kereshet. Emellett lehetőséget ad arra, hogy kizárásra kerüljenek bizonyos "
+"oldalak és hozzászólások. Nem keres jelszóval védett tartalmat."
+
+# @ SearchEverything
+#. Author of an extension
+msgid "Dan Cameron of Sprout Venture"
+msgstr "Fejlesztettő Dan Cameron"
+
+#. Author URI of an extension
+msgid "http://sproutventure.com/"
+msgstr "http://sproutventure.com/"
